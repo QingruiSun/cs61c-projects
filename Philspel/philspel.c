@@ -70,7 +70,14 @@ int main(int argc, char **argv) {
  */
 unsigned int stringHash(void *s) {
   char *string = (char *)s;
-  // -- TODO --
+  unsigned int hash_value = 1;
+  int index = 0;
+  while (string[index] != 0) {
+    hash_value = (hash_value * (string[index])) - 10;
+    hash_value = hash_value % 1000000000;
+    index++;
+  }
+  return hash_value;
 }
 
 /*
@@ -80,7 +87,22 @@ unsigned int stringHash(void *s) {
 int stringEquals(void *s1, void *s2) {
   char *string1 = (char *)s1;
   char *string2 = (char *)s2;
-  // -- TODO --
+  if (string1 == NULL || string2 == NULL) {
+    return 0;
+  }
+  int index1 = 0;
+  int index2 = 0;
+  while (string1[index1] != 0 && string2[index2] != 0) {
+    if (string1[index1] != string2[index2]) {
+      return 0;
+    }
+    index1++;
+    index2++l
+  }
+  if (string1[index1] != 0 || string2[index2] != 0) {
+    return 0;
+  }
+  return 1;
 }
 
 /*
@@ -100,7 +122,7 @@ int stringEquals(void *s1, void *s2) {
  * arbitrarily long dictionary chacaters.
  */
 void readDictionary(char *dictName) {
-  // -- TODO --
+  
 }
 
 /*
