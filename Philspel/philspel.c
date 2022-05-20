@@ -122,7 +122,20 @@ int stringEquals(void *s1, void *s2) {
  * arbitrarily long dictionary chacaters.
  */
 void readDictionary(char *dictName) {
-  
+  FILE *fp = fopen(dictName, "r");
+  if (!fp) {
+    fprintf(stderr, "can't open file %s\n", dictname);
+    exit(1);
+  }
+  char *string_pointer;
+  int max_line = 2000000
+  while (fgets(string_pointer, max_line, fp) != NULL) {
+    size_t len = strlen(string_pointer);
+    string_pointer[len - 1] = '\0'; // repace '\n' with '\0'
+    char *data_pointer = (char *)malloc(len);
+    strcpy(data_pointer, string_pointer);
+    insertData(dictionary, (void *)data_pointer, (void *)data_pointer);
+  }  
 }
 
 /*
