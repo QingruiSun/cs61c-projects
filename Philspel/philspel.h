@@ -11,4 +11,6 @@ extern void readDictionary(char *dictName);
 
 extern void processInput();
 
+extern bool check_letter(char c);
+
 #endif

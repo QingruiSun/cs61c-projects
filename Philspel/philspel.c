@@ -135,7 +135,7 @@ void readDictionary(char *dictName) {
     char *data_pointer = (char *)malloc(len);
     strcpy(data_pointer, string_pointer);
     insertData(dictionary, (void *)data_pointer, (void *)data_pointer);
-  }  
+  } 
 }
 
 /*
@@ -160,5 +160,71 @@ void readDictionary(char *dictName) {
  * final 20% of your grade, you cannot assume words have a bounded length.
  */
 void processInput() {
-  // -- TODO --
+  char c;
+  int size = 60;
+  char *read_buffer = (char *)calloc(60);
+  int count = 0;
+  while ((c = getchar()) != EOF) {
+    if (!check_letter(c)) {
+      read_buffer[count] = '\0';
+      char *find_data = findData(dictionary, read_buffer);
+      if (find_data) {
+        fprintf(stdout, "%s", find_data);
+	fprintf(stdout, "%c", c);
+	count = 0;
+	continue;
+      }
+      if (read_buffer < 97) {
+        read_buffer[0] += 32;
+        find_data = findData(dictionary, read_buffer);
+        if (find_data) {
+	  read_buffer[0] = read_buffer[0] - 32;
+	  fprintf(stdout, "%s", find_data);
+	  fpritnf(stdout, "%c", c);
+	  count = 0;
+	  continue;
+	}
+	read_buffer[0] -= 32;
+      }
+      size_t len = strlen(char_buffer);
+      char *lower_letter_buffer = (char *)calloc(len + 1);
+      for (size_t i; i < len; ++i) {
+        if (read_buffer[i] < 97) {
+	  low_letter_buffer[i] = read_buffer[i] + 32;
+	} else {
+	  low_letter_buffer[i] = read_buffer[i];
+	}
+      }
+      low_letter_buffer[len] = '\0';
+      find_data = findData(dictionary, low_letter_buffer);
+      if (find_data) {
+        fprintf(stdout, "%s", read_buffer);
+	fprintf(stdout, "%c", c);
+	count = 0;
+	continue;
+      }
+      fprintf(stdout, "%s", read_buffer);
+      fprintf(stdout, " [sic]");
+      fprintf(stdout, "%c", c);
+      count = 0;
+    } else {
+      read_buffer[count] = c;
+      count++;
+      if (count >= size) {
+	int new_size = size * 2;
+        char *new_read_buffer = (char *)calloc(new_size);
+	strcpy(new_read_buffer, read_buffer);
+	read_buffer = new_read_buffer;
+	size = new_size;
+      }
+    }
+  } 
+}
+
+
+bool check_letter(char c) {
+  if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') || (c <= 'Z'))) {
+    return true;
+  }
+  return false;
 }
