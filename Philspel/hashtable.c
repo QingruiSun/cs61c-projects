@@ -1,5 +1,6 @@
 #include "hashtable.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /*
  * This creates a new hash table of the specified size and with
@@ -38,7 +39,7 @@ void insertData(HashTable *table, void *key, void *data) {
   hash_bucket->key = key;
   hash_bucket->data = data;
   hash_bucket->next = table->data[index];
-  tabel->data[index] = hash_bucket; 
+  table->data[index] = hash_bucket; 
 }
 
 /*
@@ -51,12 +52,12 @@ void *findData(HashTable *table, void *key) {
   // 2. Walk the linked list and check for equality with table->equalFunction.
   unsigned int hash_value = table->hashFunction(key);
   unsigned int index = hash_value % table->size;
-  struct HashBucket hash_bucket = table->data[index];
+  struct HashBucket *hash_bucket = table->data[index];
   if (!hash_bucket) {
     return NULL;
   }
   while (hash_bucket) {
-    if (equal(key, hash_bucket->key)) {
+    if (table->equalFunction(key, hash_bucket->key)) {
       return hash_bucket->data;
     } else {
       hash_bucket = hash_bucket->next;

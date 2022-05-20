@@ -1,6 +1,10 @@
 #ifndef _PHILSPEL_H
 #define _PHILSPEL_H
 
+#define false 0
+#define true 1
+typedef int bool;
+
 extern struct HashTable *dictionary;
 
 extern unsigned int stringHash(void *s);
