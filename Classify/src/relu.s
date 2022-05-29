@@ -34,6 +34,7 @@ loop_continue:
              end:
              sw t3, 0(t2)
              addi t0, t0, 1
+             j loop_continue
              
 
 loop_end:
