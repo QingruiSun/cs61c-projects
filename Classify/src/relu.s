@@ -44,7 +44,7 @@ loop_end:
         addi a0, x0, 0
         j end1
         else1:
-        addi a0, x0, 8
+        li a3, 8
     # Epilogue
 
         end1:
