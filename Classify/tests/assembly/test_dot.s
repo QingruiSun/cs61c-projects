@@ -30,7 +30,7 @@ main:
 
     # Print newline
     li a1, '\n'
-    jar ra, print_char
+    jal ra, print_char
 
     # Exit
     jal exit
