@@ -43,7 +43,7 @@ matmul:
     ret
 start: 
     # Prologue
-    addi sp sp -32
+    addi sp sp -48
     sw s0 0(sp)
     sw s1 4(sp)
     sw s2 8(sp)
@@ -52,6 +52,10 @@ start:
     sw s5 20(sp)
     sw s6 24(sp)
     sw s7 28(sp)
+    sw s8 32(sp)
+    sw s9 36(sp)
+    sw s10 40(sp)
+    sw s11 44(sp)
     mv s0 a0
     mv s1 a1
     mv s2 a2
@@ -75,8 +79,18 @@ inner_loop_start:
                 mv a1 t3
                 mv a2 a2
                 li a3 1
-                mv a4 a4
+                mv a4 a5
+                mv s7 t0
+                mv s8 t1
+                mv s9 t2
+                mv s10 t3
+                mv s11 t4
                 jal ra dot
+                mv t0 s7
+                mv t1 s8
+                mv t2 s9
+                mv t3 s10
+                mv t4 s11
                 sw a0 0(t4)
                 addi t4 t4 4
                 addi t2 t2 1
@@ -97,6 +111,10 @@ outer_loop_end:
     lw s5 20(sp)
     lw s6 24(sp)
     lw s7 28(sp)
+    lw s8 32(sp)
+    lw s9 36(sp)
+    lw s10 40(sp)
+    lw s11 44(sp) 
     addi sp sp 32
     
     ret
