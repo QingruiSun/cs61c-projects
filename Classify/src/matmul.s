@@ -30,8 +30,8 @@ matmul:
     blt a2, t0, error2
     blt a4, t0, error3
     blt a5, t0, error3
-    bneq a2, a4, error4
-    j outer_loop_start
+    bne a2, a4, error4
+    j start
     error2:
     li a3 2
     ret
@@ -41,7 +41,7 @@ matmul:
     error4:
     li a3 4
     ret
-
+start: 
     # Prologue
     addi sp sp -32
     sw s0 0(sp)
@@ -60,16 +60,16 @@ matmul:
     mv s5 a5
     mv s6 a6
 
-    mv t4 a6 # t4 points to result matrix where we write to
+    mv t4 s6 # t4 points to result matrix where we write to
     li t0 0
 outer_loop_start:
                 mul t1 t0 s2
-                muli t1 t1 4      
-                add t1 t0 t1 # start pointer to one matrix row
+                slli t1 t1 2      
+                add t1 a0 t1 # start pointer to one matrix row
                 li t2 0
 inner_loop_start:
                 bgt t2 s5 inner_loop_end # t2 represents the result matrix column index
-                muli t3 t2 4
+                slli t3 t2 2
                 add t3 t3 s3 # start pointer to one matrix column
                 mv a0 t1
                 mv a1 t3
@@ -83,7 +83,6 @@ inner_loop_start:
                 j inner_loop_start
 
 inner_loop_end:
-              li t2 0
               addi t0 t0 1
               blt t0 s1 outer_loop_start
 

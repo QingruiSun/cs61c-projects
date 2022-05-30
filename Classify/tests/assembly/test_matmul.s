@@ -20,13 +20,13 @@ main:
     li a2 3
     li a4 3
     li a5 3
-    jalr ra matmul
+    jal ra matmul
 
     # Print the output (use print_int_array in utils.s)
     mv a0 a6
     li a1 3
     li a2 3
-    jalr ra print_int_array
+    jal ra print_int_array
 
     # Exit the program
     jal exit
