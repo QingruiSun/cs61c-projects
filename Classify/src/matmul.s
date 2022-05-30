@@ -43,7 +43,7 @@ matmul:
     ret
 start: 
     # Prologue
-    addi sp sp -48
+    addi sp sp -52
     sw s0 0(sp)
     sw s1 4(sp)
     sw s2 8(sp)
@@ -56,6 +56,7 @@ start:
     sw s9 36(sp)
     sw s10 40(sp)
     sw s11 44(sp)
+    sw ra 48(sp)
     mv s0 a0
     mv s1 a1
     mv s2 a2
@@ -69,17 +70,17 @@ start:
 outer_loop_start:
                 mul t1 t0 s2
                 slli t1 t1 2      
-                add t1 a0 t1 # start pointer to one matrix row
+                add t1 s0 t1 # start pointer to one matrix row
                 li t2 0
 inner_loop_start:
-                bgt t2 s5 inner_loop_end # t2 represents the result matrix column index
+                bge t2 s5 inner_loop_end # t2 represents the result matrix column index
                 slli t3 t2 2
                 add t3 t3 s3 # start pointer to one matrix column
                 mv a0 t1
                 mv a1 t3
-                mv a2 a2
+                mv a2 s2
                 li a3 1
-                mv a4 a5
+                mv a4 s5
                 mv s7 t0
                 mv s8 t1
                 mv s9 t2
@@ -114,7 +115,8 @@ outer_loop_end:
     lw s8 32(sp)
     lw s9 36(sp)
     lw s10 40(sp)
-    lw s11 44(sp) 
-    addi sp sp 32
+    lw s11 44(sp)
+    lw ra 48(sp) 
+    addi sp sp 48
     
     ret
