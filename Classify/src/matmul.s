@@ -25,38 +25,79 @@
 matmul:
 
     # Error checks
-
+    li t0 1
+    blt a1, t0, error2
+    blt a2, t0, error2
+    blt a4, t0, error3
+    blt a5, t0, error3
+    bneq a2, a4, error4
+    j outer_loop_start
+    error2:
+    li a3 2
+    ret
+    error3:
+    li a3 3
+    ret
+    error4:
+    li a3 4
+    ret
 
     # Prologue
+    addi sp sp -32
+    sw s0 0(sp)
+    sw s1 4(sp)
+    sw s2 8(sp)
+    sw s3 12(sp)
+    sw s4 16(sp)
+    sw s5 20(sp)
+    sw s6 24(sp)
+    sw s7 28(sp)
+    mv s0 a0
+    mv s1 a1
+    mv s2 a2
+    mv s3 a3
+    mv s4 a4
+    mv s5 a5
+    mv s6 a6
 
-
+    mv t4 a6 # t4 points to result matrix where we write to
+    li t0 0
 outer_loop_start:
-
-
-
-
+                mul t1 t0 s2
+                muli t1 t1 4      
+                add t1 t0 t1 # start pointer to one matrix row
+                li t2 0
 inner_loop_start:
-
-
-
-
-
-
-
-
-
-
-
+                bgt t2 s5 inner_loop_end # t2 represents the result matrix column index
+                muli t3 t2 4
+                add t3 t3 s3 # start pointer to one matrix column
+                mv a0 t1
+                mv a1 t3
+                mv a2 a2
+                li a3 1
+                mv a4 a4
+                jal ra dot
+                sw a0 0(t4)
+                addi t4 t4 4
+                addi t2 t2 1
+                j inner_loop_start
 
 inner_loop_end:
-
-
-
+              li t2 0
+              addi t0 t0 1
+              blt t0 s1 outer_loop_start
 
 outer_loop_end:
 
-
     # Epilogue
-    
+    lw s0 0(sp)
+    lw s1 4(sp)
+    lw s2 8(sp)
+    lw s3 12(sp)
+    lw s4 16(sp)
+    lw s5 20(sp)
+    lw s6 24(sp)
+    lw s7 28(sp)
+    addi sp sp 32
     
     ret

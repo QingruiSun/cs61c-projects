@@ -44,6 +44,7 @@ loop_continue:
              mul t4, t2, t3
              add t0, t0, t4
              addi, t1, t1, 1
+             j loop_continue
 
 loop_end:
         add a0, t0, x0
