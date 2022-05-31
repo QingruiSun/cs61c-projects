@@ -26,7 +26,7 @@
 read_matrix:
 
     # Prologue
-    addi sp sp -52
+    addi sp sp -64
     sw s0 0(sp)
     sw s1 4(sp)
     sw s2 8(sp)
@@ -65,7 +65,7 @@ read_matrix:
     li a3 8
     jal ra fread
     li t0 8
-    beq a0 t0 start3:
+    beq a0 t0 start3
     li a1 51
     jal ra exit2
     start3:
@@ -74,7 +74,7 @@ read_matrix:
     mul s4 s2 s3 # s4 represents matrix size
     mv a0 s4
     jal ra malloc
-    bgt a0 x0 start4:
+    bgt a0 x0 start4
     li a1 48
     jal ra exit2
     start4:
@@ -83,13 +83,13 @@ read_matrix:
     mv a2 s1
     mv a3 s4
     jal ra fread
-    beq a0 s4 start5:
+    beq a0 s4 start5
     li a1 51
     jal ra exit2
     start5:
     mv a1 s0
     jal ra fclose
-    beq a0 x0 start6:
+    beq a0 x0 start6
     li a1 52
     jal ra exit2
     start6:
@@ -98,8 +98,8 @@ read_matrix:
     mv a0 s5
     lw a1 56(sp)
     lw a2 60(sp)
-    sw s2 (a1)
-    sw s3 (a2)
+    sw s2 0(a1)
+    sw s3 0(a2)
 
     # Epilogue
     lw s0 0(sp) 
@@ -115,6 +115,6 @@ read_matrix:
     lw s10 40(sp)
     lw s11 44(sp)
     lw ra 48(sp)
-    addi sp sp 60
+    addi sp sp 64
 
     ret
