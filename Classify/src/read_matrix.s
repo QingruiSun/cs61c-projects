@@ -72,7 +72,9 @@ read_matrix:
     lw s2 0(s1) # s2 represents row number
     lw s3 4(s1) # s3 represents column number
     mul s4 s2 s3 # s4 represents matrix size
-    mv a0 s4
+    mv t0 s4
+    li t1 4
+    mul a0 t0 t1
     jal ra malloc
     bgt a0 x0 start4
     li a1 48
@@ -80,10 +82,13 @@ read_matrix:
     start4:
     mv s5 a0 # s5 points to memory for matrix
     mv a1 s0
-    mv a2 s1
-    mv a3 s4
+    mv a2 s5
+    li t0 4
+    mul a3 t0 s4
     jal ra fread
-    beq a0 s4 start5
+    li t0 4
+    mul t1 t0 s4
+    beq a0 t1 start5
     li a1 51
     jal ra exit2
     start5:
